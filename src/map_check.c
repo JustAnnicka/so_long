@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/10 22:38:01 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:33:40 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 int	ft_check_file_type(char *argv)
 {
+	//do a check for folder structure strncmp('.')
 	while (*argv != '.' && *argv != '\0')
 		argv++;
 	if (*argv == '\0')

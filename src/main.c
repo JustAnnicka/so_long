@@ -6,7 +6,8 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/10 22:28:53 by aehrl            ###   ########.fr       */
+
+/*   Updated: 2024/10/11 18:00:10 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +20,7 @@
 
 static mlx_image_t	*image;
 
-// -----------------------------------------------------------------------------
-
-static void	ft_error(void)
+void	ft_error(void)
 {
 	puts(mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
@@ -66,15 +65,12 @@ void	ft_game_ini(t_game *game_stat)
 	game_stat->enemy[0] = 0;
 	game_stat->enemy[1] = 0;
 }
-// -----------------------------------------------------------------------------
-int32_t	main(int argc, char **argv)
+
+/* int32_t	main(int argc, char **argv)
 {
 	mlx_t			*mlx;
-	mlx_texture_t	*tex_empty_space;
-	mlx_image_t		*img_empty_space;
-	mlx_texture_t	*tex_wall;
-	mlx_image_t		*img_wall;
-	t_game	game_stat;
+	t_game			game_stat;
+	t_asset			assets;
 	int				fd;
 	char			**map;
 
@@ -89,75 +85,100 @@ int32_t	main(int argc, char **argv)
 		if (map == NULL)
 			return (0);
 		mlx_set_setting(MLX_MAXIMIZED, true);
-		// Gotta error check this stuff
-		if (!(mlx = mlx_init((game_stat.width * GAME_SIZE), (game_stat.height
-						* GAME_SIZE), "SO_LONG", true)))
+		if (!(mlx = mlx_init((game_stat.width * SCALE), (game_stat.height
+						* SCALE), "SO_LONG", true)))
 			ft_error();
-		tex_empty_space = mlx_load_png("./assets/png/sand_1.png");
-		tex_wall = mlx_load_png("./assets/png/water.png");
-		if (!tex_empty_space || !tex_wall)
-			ft_error();
-		img_empty_space = mlx_texture_to_image(mlx, tex_empty_space);
-		img_wall = mlx_texture_to_image(mlx, tex_wall);
-		if (!img_empty_space || !img_wall)
-			ft_error();
-		// Display an instance of the image
-		if (mlx_image_to_window(mlx, img_empty_space, 0, 0) < 0
-			|| mlx_image_to_window(mlx, img_wall, 0, 64))
-			ft_error();
+		ft_init_map_tex(&assets, mlx);
+		ft_assets_ini(&assets, mlx);
+		ft_draw_map(map, &game_stat, &assets, mlx);
 		mlx_loop_hook(mlx, ft_player_movement, mlx);
 		// mlx_loop_hook(mlx, ft_window_handling, mlx);
 		mlx_loop(mlx);
 	}
-	mlx_delete_image(mlx, img_empty_space);
+	//mlx_delete_image(mlx, img_empty_space);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
-}
-
-/* int32_t main(void)
+} */
+void	ft_assets_ini(t_asset *assets, mlx_t *mlx)
 {
-		ft_error ();
-		ft_error ();
-		ft_error ();
+	assets->wall->tex = mlx_load_png("./assets/png/tile_0018.png");
+	assets->wall->tex_tlc = mlx_load_png("./assets/png/tile_0003.png");
+	assets->wall->tex_trc = mlx_load_png("./assets/png/tile_0005.png");
+	assets->wall->tex_top = mlx_load_png("./assets/png/tile_0004.png");
+	assets->wall->tex_bot = mlx_load_png("./assets/png/tile_0038.png");
+	assets->wall->tex_ls = mlx_load_png("./assets/png/tile_0020.png");
+	assets->wall->tex_rs = mlx_load_png("./assets/png/tile_0022.png");
+	assets->wall->tex_ctlc = mlx_load_png("./assets/png/tile_0073.png");
+	assets->wall->tex_blc = mlx_load_png("./assets/png/tile_0037.png");
+	assets->tex_empty = mlx_load_png("./assets/png/tile_0001.png");
+	assets->tex_exit = mlx_load_png("./assets/png/tile_0135.png");
+	assets->tex_enemy = mlx_load_png("./assets/png/tile_0126.png");
+	assets->tex_player = mlx_load_png("./assets/png/tile_0125.png");
+	assets->tex_collectable = mlx_load_png("./assets/png/tile_0104.png");
+	assets->tex_foot = mlx_load_png("./assets/png/tile_0135.png");
+	assets->wall->img = mlx_texture_to_image(mlx, assets->wall->tex);
+	assets->wall->img_top = mlx_texture_to_image(mlx, assets->wall->tex_top);
+	assets->wall->img_bot = mlx_texture_to_image(mlx, assets->wall->tex_bot);
+	assets->wall->img_tlc = mlx_texture_to_image(mlx, assets->wall->tex_tlc);
+	assets->wall->img_trc = mlx_texture_to_image(mlx, assets->wall->tex_trc);
+	assets->wall->img_blc = mlx_texture_to_image(mlx, assets->wall->tex_blc);
+	assets->wall->img_ctlc = mlx_texture_to_image(mlx, assets->wall->tex_ctlc);
+	assets->wall->img_ls = mlx_texture_to_image(mlx, assets->wall->tex_ls);
+	assets->wall->img_rs = mlx_texture_to_image(mlx, assets->wall->tex_rs);
+	assets->empty = mlx_texture_to_image(mlx, assets->tex_empty);
+	assets->exit = mlx_texture_to_image(mlx, assets->tex_exit);
+	assets->enemy = mlx_texture_to_image(mlx, assets->tex_enemy);
+	assets->player = mlx_texture_to_image(mlx, assets->tex_player);
+	assets->collectable = mlx_texture_to_image(mlx, assets->tex_collectable);
+	assets->foot = mlx_texture_to_image(mlx, assets->tex_foot);
+	//mlx_put_pixel(assets->wall,14,14, 0x000000FF);
+	//mlx_put_pixel(assets->wall,12,12, 0x000000FF);
+	//mlx_put_pixel(assets->wall,10,10, 0x000000FF); 
+	mlx_resize_image(assets->wall->img, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_top, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_bot, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_tlc, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_trc, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_blc, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_ctlc, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_ls, SCALE, SCALE);
+	mlx_resize_image(assets->wall->img_rs, SCALE, SCALE);
+	mlx_resize_image(assets->empty, SCALE, SCALE);
+	mlx_resize_image(assets->exit, 48, 48);
+	mlx_resize_image(assets->enemy, 48, 48);
+	mlx_resize_image(assets->player, 48, 48);
+	mlx_resize_image(assets->collectable, 32, 32);
+	mlx_resize_image(assets->foot, SCALE, SCALE);
+}
+int32_t	main(int argc, char **argv)
+{
+	mlx_t			*mlx;
+	t_game			game_stat;
+	t_asset			assets;
+	int				fd;
+	char			**map;
 
-	mlx_t* mlx;
-	mlx_texture_t*	tex_empty_space;
-	mlx_image_t*	img_empty_space;
-	mlx_texture_t*	tex_wall;
-	mlx_image_t*	img_wall;
-	mlx_set_setting(MLX_MAXIMIZED, true);
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-		if (!(image = mlx_new_image(mlx, 128, 128)))
+	map = NULL;
+	ft_game_ini(&game_stat);
+	if (argc >= 2)
 	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
+		if (ft_check_file_type(argv[1]) != 0)
+			return (0);
+		fd = open(argv[1], O_RDONLY);
+		map = ft_check_map(fd, &game_stat);
+		if (map == NULL)
+			return (0);
+		mlx_set_setting(MLX_MAXIMIZED, true);
+		if (!(mlx = mlx_init((game_stat.width * SCALE), (game_stat.height
+						* SCALE), "SO_LONG", true)))
+			ft_error();
+		ft_assets_ini(&assets, mlx);
+		ft_draw_map(map, &game_stat, &assets, mlx);
+		mlx_loop_hook(mlx, ft_player_movement, mlx);
+		// mlx_loop_hook(mlx, ft_window_handling, mlx);
+		mlx_loop(mlx);
 	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
-	// CREATE AND DISPLAY AN IMAGE (Currently just set to white)
-	tex_empty_space = mlx_load_png("./assets/png/sand_1.png");
-	tex_wall = mlx_load_png("./assets/png/water.png");
-	if (!tex_empty_space || !tex_wall)
-		ft_error();
-	img_empty_space = mlx_texture_to_image(mlx, tex_empty_space);
-	img_wall = mlx_texture_to_image(mlx, tex_wall);
-	if (!img_empty_space || !img_wall)
-	// Display an instance of the image
-	if (mlx_image_to_window(mlx, img_empty_space, 0, 0) < 0
-		|| mlx_image_to_window(mlx, img_wall, 0, 64))
-	mlx_loop_hook(mlx, ft_player_movement, mlx);
-	//mlx_loop_hook(mlx, ft_window_handling, mlx);
-	mlx_loop(mlx);
-	mlx_delete_image(mlx, img_empty_space);
+	//mlx_delete_image(mlx, img_empty_space);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
- */
