@@ -6,13 +6,14 @@
 #    By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/09 14:05:47 by aehrl             #+#    #+#              #
-#    Updated: 2024/10/11 21:07:50 by aehrl            ###   ########.fr        #
+#    Updated: 2024/10/14 17:18:29 by aehrl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = so_long
 CFLAGS  = -Wall -Wextra -Werror
-SRC		= src/main.c src/map_check.c src/map_utils.c src/map_gen.c src/init.c
+SRC		= src/main.c src/map_check.c src/map_utils.c src/map_gen.c src/init.c\
+		  src/player.c
 OBJ		= ${SRC:.c=.o}
 LIBFT = libs/libft/libft.a
 INC = inc

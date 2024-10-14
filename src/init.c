@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/11 22:06:58 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/14 18:08:30 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 //INITIATE IMAGES ASSETS
 
-void	ft_init_map_tex(t_asset *map, mlx_t *mlx)
+/* void	ft_init_map_tex(t_asset *map, mlx_t *mlx)
 {
 	map->wall->tex = mlx_load_png("./assets/png/tile_0018.png");
 	map->wall->tex_tlc = mlx_load_png("./assets/png/tile_0003.png");
@@ -38,7 +38,7 @@ void	ft_init_map_tex(t_asset *map, mlx_t *mlx)
 	map->wall->img_ls = mlx_texture_to_image(mlx, map->wall->tex_ls);
 	map->wall->img_rs = mlx_texture_to_image(mlx, map->wall->tex_rs);
 	
-}
+} */
 /* void	ft_init_map_tex(t_tmap *map, mlx_t *mlx)
 {
 	map->tex = mlx_load_png("./assets/png/tile_0018.png");
@@ -61,17 +61,25 @@ void	ft_init_map_tex(t_asset *map, mlx_t *mlx)
 	map->img_rs = mlx_texture_to_image(mlx, map->tex_rs);
 	
 } */
-void	ft_resize_assets_img(t_asset *assets)
+void	ft_resize_assets_img(t_game *g)
 {
-	mlx_resize_image(assets->wall->img, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_top, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_bot, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_tlc, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_trc, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_blc, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_ctlc, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_ls, SCALE, SCALE);
-	mlx_resize_image(assets->wall->img_rs, SCALE, SCALE);
+	mlx_resize_image(g->assets->img, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_top, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_bot, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_tlc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_trc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_blc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_brc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_ctlc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_cblc, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_ls, SCALE, SCALE);
+	mlx_resize_image(g->assets->img_rs, SCALE, SCALE);
+	mlx_resize_image(g->assets->empty, SCALE, SCALE);
+	mlx_resize_image(g->assets->exit, 48, 48);
+	mlx_resize_image(g->assets->enemy, 48, 48);
+	mlx_resize_image(g->assets->player, 48, 48);
+	mlx_resize_image(g->assets->collectable, 32, 32);
+	mlx_resize_image(g->assets->foot, SCALE, SCALE);
 }
 /* void	ft_assets_ini(t_asset *assets, mlx_t *mlx)
 {

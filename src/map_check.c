@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/11 18:33:40 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/14 19:45:46 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	ft_check_map_valid(char **map, t_game *game_stat)
 				return (ft_printf("Error\nMap error - map not enclosed"), -1);
 			if (map[y][x] == 'P')
 			{
-				ft_assign_coord(y, x, game_stat->p_start);
+				ft_assign_coord(y, x, game_stat->pos);
 				game_stat->p++;
 			}
 			else if (map[y][x] == 'C')
@@ -135,7 +135,7 @@ static int	ft_check_map_valid(char **map, t_game *game_stat)
 
 int	ft_check_map_solve(t_game *game_stat)
 {
-	ft_flood_fill(game_stat->p_start[0], game_stat->p_start[1], game_stat);
+	ft_flood_fill(game_stat->pos[0], game_stat->pos[1], game_stat);
 	if (game_stat->c_c != game_stat->c || game_stat->c_e != game_stat->e)
 	{
 		ft_printf("Error\nMap not solvable");
@@ -146,7 +146,7 @@ int	ft_check_map_solve(t_game *game_stat)
 
 char	**ft_check_map(int fd, t_game *game_stat)
 {
-	char	**map;
+	//char	**map;
 	char	*temp;
 	char	*temp_map;
 	int		i;
@@ -164,19 +164,18 @@ char	**ft_check_map(int fd, t_game *game_stat)
 	free(temp);
 	if (ft_check_map_rect(temp_map, game_stat) == -1)
 		return (ft_printf("Error\nThe map is not rectangular"), NULL);
-	// Have to ft_calloc allocated the **map width the width and height of GNL
-	map = ft_calloc(game_stat->height, sizeof(char *));
+	game_stat->map = ft_calloc(game_stat->height, sizeof(char *));
 	game_stat->path = ft_calloc(game_stat->height, sizeof(char *));
-	if (!map || !game_stat->path)
+	if (!game_stat->map || !game_stat->path)
 		return (NULL);
-	while (temp_map != (NULL))
+	while (temp_map != NULL)
 	{
-		map[i] = ft_extract_line(temp_map);
-		game_stat->path[i] = ft_strdup(map[i]);
+		game_stat->map[i] = ft_extract_line(temp_map);
+		game_stat->path[i] = ft_strdup(game_stat->map[i]);
 		temp_map = ft_update_bufffer(temp_map);
 		i++;
 	}
-	if (ft_check_map_valid(map, game_stat) == -1)
+	if (ft_check_map_valid(game_stat->map, game_stat) == -1)
 		return (NULL);
 	if (ft_check_map_solve(game_stat) == -1)
 		return (NULL);
@@ -184,5 +183,5 @@ char	**ft_check_map(int fd, t_game *game_stat)
 	/* while (i < game_stat->height)
 		ft_printf("%s", game_stat->path[i++]); */
 	// ft_printf("Hello\n");
-	return (map);
+	return (game_stat->map);
 }
