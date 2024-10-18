@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/14 19:45:46 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/16 17:24:43 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@
 
 #include "so_long.h"
 
+/* int	ft_check_file_type(char *argv)
+{
+	size_t	start;
+
+	start = ft_strncmp
+	//do a check for folder structure strncmp('.')
+	while (*argv != '.' && *argv != '\0')
+		argv++;
+	if (*argv == '\0')
+		return (ft_printf("Error\nWrong file type"), -1);
+	if (ft_strncmp(".ber", argv, 4) != 0)
+		return (ft_printf("Error\nWrong file type"), -1);
+	if (argv[4] != '\0')
+		return (ft_printf("Error\nWrong file type"), -1);
+	return (0);
+} */
 int	ft_check_file_type(char *argv)
 {
 	//do a check for folder structure strncmp('.')
@@ -69,33 +85,7 @@ static int	ft_check_map_rect(char *map, t_game *game_stat)
 	game_stat->height = y;
 	return (0);
 }
-/* static int ft_check_map_rect(char **map, t_game *game_stat)
-{
-	int	j;
-	int	i;
-	int	y;
-	int	x;
-	int	y;
-	int	x;
 
-	j = 0;
-	i = 0;
-	while (map[j])
-	{
-		while (map[j][i] != '\0' || map[j][i] != '\n')
-			i++;
-		if (j == 0)
-			game_stat->width = i;
-		if (i != game_stat->width)
-			return (-1);
-		i = 0;
-		j++;
-	}
-	if (j - 1 < game_stat->height)
-		return (-1);
-	game_stat->height = j - 1;
-	return (0);
-} */
 static int	ft_check_map_valid(char **map, t_game *game_stat)
 {
 	int y = 0;
@@ -119,6 +109,9 @@ static int	ft_check_map_valid(char **map, t_game *game_stat)
 				ft_assign_coord(y, x, game_stat->exit);
 				game_stat->e++;
 			}
+			if(map[y][x] != '1' && map[y][x] != '0' && map[y][x] != 'E'
+				&& map[y][x] != 'P' && map[y][x] != 'C')
+				return ft_printf("Error\nMap error - character not recognised");
 			x++;
 		}
 		x = 0;
@@ -146,7 +139,6 @@ int	ft_check_map_solve(t_game *game_stat)
 
 char	**ft_check_map(int fd, t_game *game_stat)
 {
-	//char	**map;
 	char	*temp;
 	char	*temp_map;
 	int		i;
@@ -154,13 +146,8 @@ char	**ft_check_map(int fd, t_game *game_stat)
 	i = 0;
 	temp = NULL;
 	temp_map = NULL;
-	while (1)
-	{
-		temp = get_next_line(fd);
-		if (temp == NULL)
-			break ;
+	while ((temp = get_next_line(fd)) != NULL)
 		temp_map = ft_gnl_strjoin(temp_map, temp);
-	}
 	free(temp);
 	if (ft_check_map_rect(temp_map, game_stat) == -1)
 		return (ft_printf("Error\nThe map is not rectangular"), NULL);
@@ -175,13 +162,9 @@ char	**ft_check_map(int fd, t_game *game_stat)
 		temp_map = ft_update_bufffer(temp_map);
 		i++;
 	}
-	if (ft_check_map_valid(game_stat->map, game_stat) == -1)
+	free(temp_map);
+	if (ft_check_map_valid(game_stat->map, game_stat) == -1
+		|| ft_check_map_solve(game_stat) == -1)
 		return (NULL);
-	if (ft_check_map_solve(game_stat) == -1)
-		return (NULL);
-	i = 0;
-	/* while (i < game_stat->height)
-		ft_printf("%s", game_stat->path[i++]); */
-	// ft_printf("Hello\n");
 	return (game_stat->map);
 }
