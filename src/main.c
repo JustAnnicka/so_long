@@ -11,7 +11,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// Written by Bruh
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -52,6 +51,7 @@ t_game	*ft_game_ini(t_game *game)
 	game->exit[1] = 0;
 	game->enemy[0] = 0;
 	game->enemy[1] = 0;
+	game->end = 0;
 	game->assets = malloc(sizeof(t_asset));
 	if (!game->assets)
         return (NULL); 
@@ -82,22 +82,16 @@ int32_t	main(int argc, char **argv)
 		if (!(game->mlx = mlx_init((game->width * SCALE), 
 			(game->height * SCALE), "SO_LONG", true)))
 			ft_error();
-		//mlxctx = game->mlx->context;
 		ft_assets_ini(game, game->mlx);
 		//add ft_draw_map into ft_init(ft_assets_ini)s
 		ft_draw_map(game->map, game, game->mlx);
 		mlx_loop_hook(game->mlx, ft_window_handling, game->mlx);
 		mlx_key_hook(game->mlx, ft_player_movement_keyhook, game);
-		int i = game->assets->empty->count - 1;
-		ft_printf("wall - z:%d\n", game->assets->empty->instances[i].z);
-		ft_printf("steps - z:%d\n", game->assets->font->steps->instances[0].z);
-		/* if (game.c_c == 0 && game.pos[0] == game.exit[0] && game.exit[1] == game.pos[1])
-			mlx_lstclear((mlx_list_t**)(&mlxctx->images), &mlx_free_image); */
+		mlx_loop_hook(game->mlx, ft_shift_first_row_up, game);
 		mlx_loop(game->mlx);
 	}
 	else
 		return (-1);
-	//mlx_delete_image(mlx, img_empty_space); <- This should go into a clear function
 	mlx_terminate(game->mlx);
 	return (EXIT_SUCCESS);
 }

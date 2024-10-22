@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/18 17:46:52 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/21 14:59:50 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_init_tex(t_game *g)
 	g->assets->tex_empty = mlx_load_png("./assets/png/tile_0001.png");
 	g->assets->tex_exit = mlx_load_png("./assets/png/tile_0135.png");
 	g->assets->tex_enemy = mlx_load_png("./assets/png/tile_0126.png");
-	g->assets->tex_player = mlx_load_png("./assets/png/tile_0125.png");
+	g->assets->tex_player = mlx_load_png("./assets/png/mono/tile_0125.png");
 	g->assets->tex_collectable = mlx_load_png("./assets/png/tile_0104.png");
 	g->assets->tex_foot = mlx_load_png("./assets/png/tile_0135.png");
 }
@@ -82,37 +82,6 @@ void	ft_init_imgs(t_game *g, mlx_t *mlx)
 	mlx_delete_texture(g->assets->tex_ctlc);
 }
 
-/* void ft_init_font(mlx_t *mlx, t_game *game)
-{
-	
-	//game->assets->font->font = mlx_get_font();
-	mlx_get_font();
-	mlx_put_string(mlx, "WIN", 64, 64);
-	ft_printf("HELLO\n");
-	game->assets->font->win = mlx_put_string(mlx, "win", 164, 164);
-	ft_printf("HELLO\n");
-	mlx_put_string(mlx, "LOOSE", 0, 0);
-	mlx_put_string(mlx, "STEPS:", 0, 0);
-	//game->assets->font->win->instances[0].enabled = false;
-	//game->assets->font->loose->instances[0].enabled = false;
-	game->assets->font->win = mlx_put_string(mlx, "WIN", 64, 64);
-	game->assets->font->loose = mlx_put_string(mlx, "LOOSE", 0, 0);
-	game->assets->font->steps = mlx_put_string(mlx, "STEPS:", 0, 0);
-	game->assets->font->win->instances[0].enabled = false;
-	game->assets->font->loose->instances[0].enabled = false; 
-} */
-/* void ft_init_font(mlx_t *mlx)
-{
-	//game->assets->font->font = mlx_get_font();
-	//allocate malloc for the string t_images maybe that fixes this shit
-	mlx_get_font();
-	mlx_put_string(mlx, "WIN", 64, 64);
-	mlx_put_string(mlx, "LOOSE", 0, 0);
-	mlx_put_string(mlx, "STEPS:", mlx->width - SCALE, mlx->height - SCALE);
-	//game->assets->font->win->instances[0].enabled = false;
-	//game->assets->font->loose->instances[0].enabled = false;
-	
-} */
 void ft_init_font(t_game *g)
 {
 	mlx_get_font();
@@ -131,6 +100,5 @@ void	ft_assets_ini(t_game *g, mlx_t *mlx)
 	ft_init_tex(g);
 	ft_init_imgs(g, mlx);
 	ft_resize_assets_img(g);
-	//ft_init_font(mlx);
 	ft_init_font(g);
 }

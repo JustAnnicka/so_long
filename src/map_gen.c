@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/16 14:18:03 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/18 18:30:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_draw_island_corners(t_game *g, mlx_t *mlx, int x, int y)
 		x = 0;
 	}
 }
+
 void	ft_draw_island_connector(t_game *g, mlx_t *mlx, int x, int y)
 {
 	while (y++ < g->height - 1)
@@ -70,8 +71,8 @@ void	ft_draw_island_connector(t_game *g, mlx_t *mlx, int x, int y)
 		{
 			if (g->path[y][x] != '1')
 			{
-				if (g->path[y][x + 1] == '1' && g->path[y + 1][x
-					+ 1] == '1' && g->path[y + 1][x] == '1')
+				if (g->path[y][x + 1] == '1' && g->path[y + 1][x + 1] == '1'
+					&& g->path[y + 1][x] == '1')
 					mlx_image_to_window(mlx, g->assets->img_brc, (SCALE * x)
 						+ 16, (SCALE * y) + 14);
 				// corner connect tlc

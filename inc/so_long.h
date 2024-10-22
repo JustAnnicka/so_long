@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:17:55 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/18 14:55:18 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/22 19:08:02 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 //Include Libraries
 # include "libft.h"
 # include "MLX42.h"
-//# include "../libs/MLX42/include/MLX42/MLX42_Int.h"
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -30,6 +29,7 @@ typedef struct s_font
 	mlx_image_t	*win;
 	mlx_image_t	*loose;
 	mlx_image_t	*steps;
+	mlx_image_t	*count;
 }	t_font;
 typedef	struct	s_asset
 {
@@ -83,10 +83,10 @@ typedef struct s_game
 	int			pos[2];
 	int			exit[2];
 	int			enemy[2];
+	int			end;
 	t_asset		*assets;
 	char		**path;
 	char		**map;
-
 }	t_game;
 
 //MAP CHECK FUNCTION
@@ -102,12 +102,15 @@ void	ft_resize_assets_img(t_game *g);
 //GRAPHIC RENDERING FUNCTIONS
 void	ft_draw_map(char **map, t_game *game, mlx_t *mlx);
 void	ft_spawn_enemy(t_game *game);
-void	ft_clear_map(mlx_t *mlx, t_game *game);
+void	ft_clear_window(mlx_t *mlx, t_game *game);
+void	ft_ui_stepcount(t_game *g, int step_count);
+//void	ft_level_complete(t_game *game)
+void	ft_shift_first_row_up(void *param);
 
 //GAME MECHANIC FUNCTIONS
 //void	ft_player_movement_keyhook(mlx_key_data_t keydata, t_game *game, t_asset assets);
 void	ft_player_movement_keyhook(mlx_key_data_t keydata, void* param);
-void	ft_map_interact(t_game *game);
+void	ft_map_interact(t_game *g);
 void	ft_enemy_movement(t_game *game);
 
 //HELPER FUNCTIONS

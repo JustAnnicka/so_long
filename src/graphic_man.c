@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:54:28 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/18 17:21:37 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/22 19:37:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // The use of the images of MLX is mandatory
 #include "so_long.h"
 
-void	ft_clear_map(mlx_t *mlx, t_game *game)
+void	ft_clear_window(mlx_t *mlx, t_game *game)
 {
 	mlx_delete_image(mlx, game->assets->img);
 	mlx_delete_image(mlx, game->assets->img_top);
@@ -32,9 +32,8 @@ void	ft_clear_map(mlx_t *mlx, t_game *game)
 	mlx_delete_image(mlx, game->assets->empty);
 	mlx_delete_image(mlx, game->assets->exit);
 	mlx_delete_image(mlx, game->assets->enemy);
-	//ft_printf("TEST\n");
-	//mlx_delete_image(mlx, game->assets->player);
 	mlx_delete_image(mlx, game->assets->collectable);
+	game->end = 1;
 	game->assets->player->instances[0].enabled = false;
 
 }
@@ -66,18 +65,61 @@ void	ft_clear_map(mlx_t *mlx, t_game *game)
 	//void mlx_delete_image(mlx_t* mlx, mlx_image_t* image)
 } */
 
-/* void	ft_clear_window(mlx_t mlx)
+/* void	ft_shift_row_up(t_game *g, int row_size, int height)
 {
-	//SEE IF WE CAN MAKE A SIMILIAR FUNCTION TO mlx_delete_image BUT WITH ALL IMAGES IN THE LIST
-	mlx_ctx_t	*mlxctx;
+	uint8_t		*buffer;
+	int			row;
+	int			*pixels;
 
-	mlxctx = mlx->context;
-	
+	row = 0;
+	pixels = (int *)g->assets->img->pixels;
+	buffer = (uint8_t *)malloc(row_size);
+	ft_memcpy(buffer, pixels, row_size);
+	while (row < height - 1)
+	{
+		ft_memcpy(&pixels[row * row_size], &pixels[(row + 1) * row_size], row_size);
+		row++;
+	}
+	ft_memcpy(&pixels[(height - 1) * row_size], buffer, row_size);
+	free(buffer);
+
 } */
-
-/* void	ft_level_complete(mlx_t mlx, t_game *game)
+void 	ft_shift_first_row_up(void *param)
 {
-	
+	t_game		*g;
+	static int	frame;
+	int			row;
+	int			row_size;
+	uint8_t		*buffer;
+
+	g = param;
+	row = 0;
+	buffer = 0;
+    row_size = g->assets->img->width * 4;
+	if(g->end == 1)
+		return ;
+	frame++;
+	if (frame == 5)
+	{
+		buffer = (uint8_t *)malloc(row_size);
+		ft_memcpy(buffer, g->assets->img->pixels, row_size);
+		while (row < (int)g->assets->img->height - 1)
+		{
+			ft_memcpy(&g->assets->img->pixels[row * row_size], &g->assets->img->pixels[(row + 1) * row_size], row_size);
+			row++;
+		}
+		ft_memcpy(&g->assets->img->pixels[((int)g->assets->img->height - 1) * row_size], buffer, row_size);
+		free(buffer);
+		frame = 0;
+	}
+}
+
+/* void	ft_level_complete(t_game *game)
+{
+	mlx_texture_t	*tex;
+	mlx_image_t		*blk;
+
+
 } */
 /* 
 void	ft_level_fail(mlx_t mlx, t_game *game)
