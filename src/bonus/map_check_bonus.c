@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_check.c                                        :+:      :+:    :+:   */
+/*   map_check_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 20:41:00 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 20:40:23 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static int	ft_check_map_rect(char *map, t_game *g)
 		if (y == 0)
 			g->width = i;
 		if ((i - (g->width * y) - (1 * y)) != g->width)
-			return (-1);
+			return (ft_printf("Error\nThe map is not rectangular"), -1);
 		y++;
 		if (map[i] == '\0')
 			break ;
 		i++;
 	}
 	if (y <= g->height)
-		return (-1);
+		return (ft_printf("Error\nMap not solvable"), -1);
 	g->height = y;
 	return (0);
 }
@@ -107,7 +107,7 @@ char	**ft_check_map(int fd, t_game *g, int i)
 		temp_map = ft_gnl_strjoin(temp_map, temp);
 	free(temp);
 	if (ft_check_map_rect(temp_map, g) == -1)
-		return (ft_printf("Error\nThe map is not rectangular"), NULL);
+		return (NULL);
 	ft_init_maps(g);
 	if (!g->map || !g->path)
 		return (NULL);

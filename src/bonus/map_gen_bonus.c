@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_gen.c                                          :+:      :+:    :+:   */
+/*   map_gen_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 20:57:14 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 20:57:09 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,8 @@ void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 		SCALE * g->exit[0] + 8);
 	mlx_image_to_window(mlx, g->assets->player, SCALE * g->pos[1] + 8,
 		SCALE * g->pos[0] + 8);
+	ft_spawn_enemy(g);
+	mlx_image_to_window(mlx, g->assets->enemy, SCALE * g->enemy[1] + 8,
+		SCALE * g->enemy[0] + 8);
+	g->assets->font->steps->instances[0].enabled = true;
 }

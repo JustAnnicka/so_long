@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:48:04 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 19:25:46 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 15:13:30 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_player_step(t_game *g, int x, int y)
 	g->pos[0] = y;
 	g->pos[1] = x;
 	step_count++;
-	ft_printf("Step count: %d\n", step_count);
+	ft_ui_stepcount(g, step_count);
+	ft_enemy_movement(g);
 	if (g->pos[0] == g->enemy[0] && g->pos[1] == g->enemy[1])
 		return (ft_clear_window(g->mlx, g), ft_level_fail(g), -2);
 	return (0);

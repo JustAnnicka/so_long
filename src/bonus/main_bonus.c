@@ -38,7 +38,7 @@ t_game	*ft_game_ini(t_game *g)
 	if (!g->mlx)
 		return (NULL);
 	g->width = 0;
-	g->height = 2;
+	g->height = 3;
 	g->p = 0;
 	g->c = 0;
 	g->e = 0;
@@ -57,7 +57,7 @@ t_game	*ft_game_ini(t_game *g)
 	g->assets->font = malloc(sizeof(t_font));
 	if (!g->assets->font)
 		return (NULL);
-	// INSTEAD OF RETUTRN NULL GIVE ERROR MESSAGE AND EXIT
+	// INSTEAD OF RETURN NULL GIVE ERROR MESSAGE AND EXIT
 	return (g);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:54:28 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/22 19:50:26 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 20:47:27 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,25 @@
 // The use of the images of MLX is mandatory
 #include "so_long.h"
 
-void	ft_clear_window(mlx_t *mlx, t_game *game)
+void	ft_clear_window(mlx_t *mlx, t_game *g)
 {
-	mlx_delete_image(mlx, game->assets->img);
-	mlx_delete_image(mlx, game->assets->img_top);
-	mlx_delete_image(mlx, game->assets->img_bot);
-	mlx_delete_image(mlx, game->assets->img_tlc);
-	mlx_delete_image(mlx, game->assets->img_trc);
-	mlx_delete_image(mlx, game->assets->img_ctlc);
-	mlx_delete_image(mlx, game->assets->img_cblc);
-	mlx_delete_image(mlx, game->assets->img_blc);
-	mlx_delete_image(mlx, game->assets->img_brc);
-	mlx_delete_image(mlx, game->assets->img_ls);
-	mlx_delete_image(mlx, game->assets->img_rs);
-	mlx_delete_image(mlx, game->assets->empty);
-	mlx_delete_image(mlx, game->assets->exit);
-	mlx_delete_image(mlx, game->assets->enemy);
-	mlx_delete_image(mlx, game->assets->collectable);
-	game->end = 1;
-	game->assets->player->instances[0].enabled = false;
+	mlx_delete_image(mlx, g->assets->img);
+	mlx_delete_image(mlx, g->assets->img_top);
+	mlx_delete_image(mlx, g->assets->img_bot);
+	mlx_delete_image(mlx, g->assets->img_tlc);
+	mlx_delete_image(mlx, g->assets->img_trc);
+	mlx_delete_image(mlx, g->assets->img_ctlc);
+	mlx_delete_image(mlx, g->assets->img_cblc);
+	mlx_delete_image(mlx, g->assets->img_blc);
+	mlx_delete_image(mlx, g->assets->img_brc);
+	mlx_delete_image(mlx, g->assets->img_ls);
+	mlx_delete_image(mlx, g->assets->img_rs);
+	mlx_delete_image(mlx, g->assets->empty);
+	mlx_delete_image(mlx, g->assets->exit);
+	mlx_delete_image(mlx, g->assets->enemy);
+	mlx_delete_image(mlx, g->assets->collectable);
+	g->end = 1;
+	g->assets->player->instances[0].enabled = false;
 
 }
 

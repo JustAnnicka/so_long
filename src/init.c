@@ -6,15 +6,14 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 18:16:31 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 20:58:28 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-
 void	ft_init_tex(t_game *g)
-{		
+{
 	g->assets->tex = mlx_load_png("./assets/png/tile_0018.png");
 	g->assets->tex_tlc = mlx_load_png("./assets/png/tile_0003.png");
 	g->assets->tex_trc = mlx_load_png("./assets/png/tile_0005.png");
@@ -51,18 +50,23 @@ void	ft_init_imgs(t_game *g, mlx_t *mlx)
 	g->assets->exit = mlx_texture_to_image(mlx, g->assets->tex_exit);
 	g->assets->enemy = mlx_texture_to_image(mlx, g->assets->tex_enemy);
 	g->assets->player = mlx_texture_to_image(mlx, g->assets->tex_player);
-	g->assets->collectable = mlx_texture_to_image(mlx, g->assets->tex_collectable);
+	g->assets->collectable = mlx_texture_to_image(mlx,
+			g->assets->tex_collectable);
 	g->assets->foot = mlx_texture_to_image(mlx, g->assets->tex_foot);
 }
 
-void ft_init_font(t_game *g)
+void	ft_init_font(t_game *g)
 {
 	mlx_get_font();
-	g->assets->font->win = mlx_put_string(g->mlx, "YOU WIN!", (g->mlx->width / 2) - SCALE, g->mlx->height / 2);
-	g->assets->font->loose = mlx_put_string(g->mlx, "YOU LOOSE!",(g->mlx->width / 2) - 20, g->mlx->height / 2);
-	g->assets->font->steps = mlx_put_string(g->mlx, "STEPS:", g->mlx->width - (SCALE * 2.5), g->mlx->height - (SCALE / 1.5));
+	g->assets->font->win = mlx_put_string(g->mlx, "YOU WIN!", (g->mlx->width
+				/ 2) - SCALE, g->mlx->height / 2);
+	g->assets->font->loose = mlx_put_string(g->mlx, "YOU LOOSE!", (g->mlx->width
+				/ 2) - 20, g->mlx->height / 2);
+	g->assets->font->steps = mlx_put_string(g->mlx, "STEPS:", g->mlx->width
+			- (SCALE * 2.5), g->mlx->height - (SCALE / 1.5));
 	g->assets->font->win->instances[0].enabled = false;
 	g->assets->font->loose->instances[0].enabled = false;
+	g->assets->font->steps->instances[0].enabled = false;
 	mlx_set_instance_depth(&g->assets->font->steps->instances[0], 160);
 	mlx_resize_image(g->assets->font->steps, SCALE, SCALE / 2);
 	mlx_resize_image(g->assets->font->win, SCALE * 2.5, SCALE / 2);
@@ -82,7 +86,7 @@ t_game	*ft_initiate(t_game *g)
 {
 	g = malloc(sizeof(t_game));
 	if (!g)
-        return (NULL); 
+		return (NULL);
 	g = ft_game_ini(g);
 	return (g);
 }
