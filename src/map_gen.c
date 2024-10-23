@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/18 18:30:14 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 13:48:37 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_draw_island_connector(t_game *g, mlx_t *mlx, int x, int y)
 {
 	while (y++ < g->height - 1)
 	{
+		x = 0;
 		while (x++ < g->width - 1)
 		{
 			if (g->path[y][x] != '1')
@@ -86,7 +87,6 @@ void	ft_draw_island_connector(t_game *g, mlx_t *mlx, int x, int y)
 						(SCALE * y) - 16);
 			}
 		}
-		x = 0;
 	}
 }
 

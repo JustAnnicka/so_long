@@ -11,12 +11,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "so_long.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include "so_long.h"
 #include <string.h>
-
+#include <unistd.h>
 
 void	ft_error(void)
 {
@@ -37,7 +36,7 @@ t_game	*ft_game_ini(t_game *game)
 {
 	game->mlx = malloc(sizeof(mlx_t));
 	if (!game->mlx)
-        return (NULL); 
+		return (NULL);
 	game->width = 0;
 	game->height = 3;
 	game->p = 0;
@@ -54,44 +53,42 @@ t_game	*ft_game_ini(t_game *game)
 	game->end = 0;
 	game->assets = malloc(sizeof(t_asset));
 	if (!game->assets)
-        return (NULL); 
+		return (NULL);
 	game->assets->font = malloc(sizeof(t_font));
 	if (!game->assets->font)
-        return (NULL); 
+		return (NULL);
+	// INSTEAD OF RETUTRN NULL GIVE ERROR MESSAGE AND EXIT
 	return (game);
 }
 
 int32_t	main(int argc, char **argv)
 {
-	t_game				*game;
-	int					fd;
-	
-	game = malloc(sizeof(t_game));
-	if (!game)
-        return (-1); 
-	game = ft_game_ini(game);
+	t_game	*g;
+	int		fd;
+
+	g = NULL;
+	g = ft_initiate(g);
 	if (argc >= 2)
 	{
+		if ((fd = open(argv[1], O_RDONLY)) == -1)
+			return (printf("Error\nCould not open file"), -1);
 		if (ft_check_file_type(argv[1]) != 0)
-			return (0);
-		fd = open(argv[1], O_RDONLY);
-		game->map = ft_check_map(fd, game);
-		if (game->map == NULL)
-			return (0);
-		//mlx_set_setting(MLX_MAXIMIZED, true);
-		if (!(game->mlx = mlx_init((game->width * SCALE), 
-			(game->height * SCALE), "SO_LONG", true)))
+			return (-1);
+		g->map = ft_check_map(fd, g, 0);
+		if (g->map == NULL)
+			return (-1);
+		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE),
+					"", true)))
 			ft_error();
-		ft_assets_ini(game, game->mlx);
-		//add ft_draw_map into ft_init(ft_assets_ini)s
-		ft_draw_map(game->map, game, game->mlx);
-		mlx_loop_hook(game->mlx, ft_window_handling, game->mlx);
-		mlx_key_hook(game->mlx, ft_player_movement_keyhook, game);
-		mlx_loop_hook(game->mlx, ft_shift_first_row_up, game);
-		mlx_loop(game->mlx);
+		ft_assets_ini(g, g->mlx);
+		ft_draw_map(g->map, g, g->mlx);
+		mlx_loop_hook(g->mlx, ft_window_handling, g->mlx);
+		mlx_key_hook(g->mlx, ft_player_movement_keyhook, g);
+		mlx_loop_hook(g->mlx, ft_water_animation, g);
+		mlx_loop(g->mlx);
 	}
 	else
 		return (-1);
-	mlx_terminate(game->mlx);
+	mlx_terminate(g->mlx);
 	return (EXIT_SUCCESS);
 }

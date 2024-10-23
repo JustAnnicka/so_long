@@ -6,59 +6,30 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/16 17:24:43 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 15:13:02 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// Map has to be constructed with 3 Components; Wall, Collectables & free space
-// -> Map is composed of 5 characters 0(free space), 1(wall), C(collectable),
-// -> Map must contain 1 exit, minimum 1 collectable & 1 player start position
-// -> Map must be rectangular & enclosed by walls
-// Any missconficuration must return an error
-
-// Map checks
-// -> Main check before opening the file
-//	-> Check that the file is .ber (only .ber & nothing extended)
-// -> Check before validating the content
-//	-> Check that the map is rectangular
-// -> Check to see if the map is valid
-//	-> Wall enclosing the entire area
-//	-> P == 1, E == 1, C >= 1
-//	-> Check if player can reach the exit and all collectables
-
 #include "so_long.h"
 
-/* int	ft_check_file_type(char *argv)
-{
-	size_t	start;
-
-	start = ft_strncmp
-	//do a check for folder structure strncmp('.')
-	while (*argv != '.' && *argv != '\0')
-		argv++;
-	if (*argv == '\0')
-		return (ft_printf("Error\nWrong file type"), -1);
-	if (ft_strncmp(".ber", argv, 4) != 0)
-		return (ft_printf("Error\nWrong file type"), -1);
-	if (argv[4] != '\0')
-		return (ft_printf("Error\nWrong file type"), -1);
-	return (0);
-} */
 int	ft_check_file_type(char *argv)
 {
-	//do a check for folder structure strncmp('.')
-	while (*argv != '.' && *argv != '\0')
-		argv++;
-	if (*argv == '\0')
+	char	*p;
+
+	//maybe unnecesary check as we check if open works in the main
+	if (!argv)
+		return (ft_printf("Error\n File does not exist"), -1);
+	p = ft_strrchr(argv, '.');
+	if (p == 0)
 		return (ft_printf("Error\nWrong file type"), -1);
-	if (ft_strncmp(".ber", argv, 4) != 0)
+	else if (ft_strncmp(".ber", p, 4) != 0)
 		return (ft_printf("Error\nWrong file type"), -1);
-	if (argv[4] != '\0')
+	else if (p[4] != '\0')
 		return (ft_printf("Error\nWrong file type"), -1);
 	return (0);
 }
 
-static int	ft_check_map_rect(char *map, t_game *game_stat)
+static int	ft_check_map_rect(char *map, t_game *g)
 {
 	int	y;
 	int	i;
@@ -72,64 +43,52 @@ static int	ft_check_map_rect(char *map, t_game *game_stat)
 		while (map[i] != '\n' && map[i] != '\0')
 			i++;
 		if (y == 0)
-			game_stat->width = i;
-		if ((i - (game_stat->width * y) - (1 * y)) != game_stat->width)
+			g->width = i;
+		if ((i - (g->width * y) - (1 * y)) != g->width)
 			return (-1);
 		y++;
 		if (map[i] == '\0')
 			break ;
 		i++;
 	}
-	if (y < game_stat->height)
+	if (y < g->height)
 		return (-1);
-	game_stat->height = y;
+	g->height = y;
 	return (0);
 }
 
-static int	ft_check_map_valid(char **map, t_game *game_stat)
-{
-	int y = 0;
-	int x = 0;
-	while (y < game_stat->height)
+static int	ft_check_map_valid(char **map, t_game *g, int y, int x)
+{	
+	while (y < g->height)
 	{
-		while (x < game_stat->width)
+		x = 0;
+		while (x < g->width)
 		{
-			if (((y == 0 || y == game_stat->height - 1) && map[y][x] != '1')
-				|| ((x == 0 || x == game_stat->width) && map[y][x] != '1'))
+			if (((y == 0 || y == g->height - 1) && map[y][x] != '1')
+				|| ((x == 0 || x == g->width) && map[y][x] != '1'))
 				return (ft_printf("Error\nMap error - map not enclosed"), -1);
 			if (map[y][x] == 'P')
-			{
-				ft_assign_coord(y, x, game_stat->pos);
-				game_stat->p++;
-			}
+				g->p += ft_assign_coord(y, x, g->pos);
 			else if (map[y][x] == 'C')
-				game_stat->c++;
+				g->c++;
 			else if (map[y][x] == 'E')
-			{
-				ft_assign_coord(y, x, game_stat->exit);
-				game_stat->e++;
-			}
+				g->e += ft_assign_coord(y, x, g->exit);
 			if(map[y][x] != '1' && map[y][x] != '0' && map[y][x] != 'E'
 				&& map[y][x] != 'P' && map[y][x] != 'C')
-				return ft_printf("Error\nMap error - character not recognised");
+				return (ft_printf("Error\nMap error-char not recognised"), -1);
 			x++;
 		}
-		x = 0;
 		y++;
 	}
-	if (game_stat->p == 0 || game_stat->p > 1)
-		return (ft_printf("Error\nMap error - player start position"), -1);
-	if (game_stat->e == 0 || game_stat->e > 1)
-		return (ft_printf("Error\nMap error - exit"), -1);
-	if (game_stat->c == 0)
-		return (ft_printf("Error\nMap error - no collectable"), -1);
+	if (g->p == 0 || g->p > 1 || g->e == 0 || g->e > 1 || g->c == 0)
+		return (ft_map_error_handle(g), -1);
 	return (0);
 }
 
-int	ft_check_map_solve(t_game *game_stat)
+int	ft_check_map_solve(t_game *g)
 {
-	ft_flood_fill(game_stat->pos[0], game_stat->pos[1], game_stat);
-	if (game_stat->c_c != game_stat->c || game_stat->c_e != game_stat->e)
+	ft_flood_fill(g->pos[0], g->pos[1], g);
+	if (g->c_c != g->c || g->c_e != g->e)
 	{
 		ft_printf("Error\nMap not solvable");
 		exit(0);
@@ -137,34 +96,31 @@ int	ft_check_map_solve(t_game *game_stat)
 	return (0);
 }
 
-char	**ft_check_map(int fd, t_game *game_stat)
+char	**ft_check_map(int fd, t_game *g, int i)
 {
 	char	*temp;
 	char	*temp_map;
-	int		i;
 
-	i = 0;
 	temp = NULL;
 	temp_map = NULL;
 	while ((temp = get_next_line(fd)) != NULL)
 		temp_map = ft_gnl_strjoin(temp_map, temp);
 	free(temp);
-	if (ft_check_map_rect(temp_map, game_stat) == -1)
+	if (ft_check_map_rect(temp_map, g) == -1)
 		return (ft_printf("Error\nThe map is not rectangular"), NULL);
-	game_stat->map = ft_calloc(game_stat->height, sizeof(char *));
-	game_stat->path = ft_calloc(game_stat->height, sizeof(char *));
-	if (!game_stat->map || !game_stat->path)
+	ft_init_maps(g);
+	if (!g->map || !g->path)
 		return (NULL);
 	while (temp_map != NULL)
 	{
-		game_stat->map[i] = ft_extract_line(temp_map);
-		game_stat->path[i] = ft_strdup(game_stat->map[i]);
+		g->map[i] = ft_extract_line(temp_map);
+		g->path[i] = ft_strdup(g->map[i]);
 		temp_map = ft_update_bufffer(temp_map);
 		i++;
 	}
 	free(temp_map);
-	if (ft_check_map_valid(game_stat->map, game_stat) == -1
-		|| ft_check_map_solve(game_stat) == -1)
+	if (ft_check_map_valid(g->map, g, 0, 0) == -1
+		|| ft_check_map_solve(g) == -1)
 		return (NULL);
-	return (game_stat->map);
+	return (g->map);
 }

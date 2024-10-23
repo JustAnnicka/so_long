@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:17:55 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/22 19:08:02 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 18:16:32 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_font
 	mlx_image_t	*steps;
 	mlx_image_t	*count;
 }	t_font;
+
 typedef	struct	s_asset
 {
 	t_font			*font;
@@ -91,32 +92,40 @@ typedef struct s_game
 
 //MAP CHECK FUNCTION
 int		ft_check_file_type(char *argv);
-char 	**ft_check_map(int fd, t_game *game_stat);
+char 	**ft_check_map(int fd, t_game *g, int i);
 int		ft_check_if_enclosed(char **map, int y, int x);
 
 //INITIATE FUNCTIONS
 void	ft_init_map_tex(t_asset *map, mlx_t *mlx);
 void	ft_assets_ini(t_game *g, mlx_t *mlx);
+t_game	*ft_game_ini(t_game *game);
 void	ft_resize_assets_img(t_game *g);
+void	ft_init_maps(t_game *g);
+t_game	*ft_initiate(t_game *g);
 
 //GRAPHIC RENDERING FUNCTIONS
 void	ft_draw_map(char **map, t_game *game, mlx_t *mlx);
 void	ft_spawn_enemy(t_game *game);
 void	ft_clear_window(mlx_t *mlx, t_game *game);
 void	ft_ui_stepcount(t_game *g, int step_count);
-//void	ft_level_complete(t_game *game)
-void	ft_shift_first_row_up(void *param);
+void	ft_fill_window(t_game *g, mlx_t *mlx, mlx_image_t *img);
+void	ft_level_complete(t_game *g);
+void	ft_level_fail(t_game *g);
+void	ft_water_animation(void *param);
 
 //GAME MECHANIC FUNCTIONS
-//void	ft_player_movement_keyhook(mlx_key_data_t keydata, t_game *game, t_asset assets);
 void	ft_player_movement_keyhook(mlx_key_data_t keydata, void* param);
 void	ft_map_interact(t_game *g);
 void	ft_enemy_movement(t_game *game);
 
 //HELPER FUNCTIONS
-void	ft_assign_coord(int y, int x, int *game_stat);
-void	ft_flood_fill(int y, int x, t_game *game_stat);
+int		ft_assign_coord(int y, int x, int *g);
+void	ft_flood_fill(int y, int x, t_game *g);
+void	ft_delete_textures(t_game *g);
+void	ft_resize_assets_img(t_game *g);
+
 //ERROR HANDLING
 void	ft_error(void);
+void	ft_map_error_handle(t_game *g);
 
 #endif

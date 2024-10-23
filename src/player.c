@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:48:04 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/21 16:52:44 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 15:13:30 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,14 @@ int	ft_player_step(t_game *g, int x, int y)
 		g->map[y][x] = '0';
 	}
 	else if (g->map[y][x] == 'E' && g->c_c == 0)
-		return (ft_printf("YAY COMPLETE!"), ft_clear_window(g->mlx, g),
-		0);
+		return (ft_clear_window(g->mlx, g), ft_level_complete(g), 0);
 	g->pos[0] = y;
 	g->pos[1] = x;
 	step_count++;
 	ft_ui_stepcount(g, step_count);
-	ft_printf("Step Count: %d\n", step_count);
 	ft_enemy_movement(g);
 	if (g->pos[0] == g->enemy[0] && g->pos[1] == g->enemy[1])
-		return (ft_printf("OH NO YOU LOOSE"), ft_clear_window(g->mlx, g), -2);
+		return (ft_clear_window(g->mlx, g), ft_level_fail(g), -2);
 	return (0);
 }
 
@@ -65,7 +63,6 @@ void	ft_map_interact(t_game *g)
 		mlx_resize_image(g->assets->exit, 48, 48);
 	}
 }
-
 
 void	ft_player_movement_keyhook(mlx_key_data_t keydata, void *param)
 {
