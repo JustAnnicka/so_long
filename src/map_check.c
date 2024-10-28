@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 14:44:04 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 18:07:48 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static int	ft_check_map_rect(char *map, t_game *g)
 		if (y == 0)
 			g->width = i;
 		if ((i - (g->width * y) - (1 * y)) != g->width)
-			return (-1);
+			return (ft_printf("Error\nThe map is not rectangular"), -1);
 		y++;
 		if (map[i] == '\0')
 			break ;
 		i++;
 	}
 	if (y <= g->height)
-		return (-1);
+		return ( ft_printf("Error\nThe map height is to small"), -1);
 	g->height = y;
 	return (0);
 }
@@ -91,7 +91,7 @@ int	ft_check_map_solve(t_game *g)
 	if (g->c_c != g->c || g->c_e != g->e)
 	{
 		ft_printf("Error\nMap not solvable");
-		exit(0);
+		return (ft_free_game(g), -1);
 	}
 	return (0);
 }
@@ -107,12 +107,9 @@ char	**ft_check_map(int fd, t_game *g, int i)
 		temp_map = ft_gnl_strjoin(temp_map, temp);
 	free(temp);
 	if (ft_check_map_rect(temp_map, g) == -1)
-		return (ft_printf("Error\nThe map is not rectangular"), NULL);
+		return (free(temp_map), ft_free_game(g), NULL);
 	if (ft_init_maps(g) == -1)
-	{
-		ft_free_game(g);
-		return (NULL);
-	}
+		return (free(temp_map), ft_free_game(g), NULL);
 	while (temp_map != NULL)
 	{
 		g->map[i] = ft_extract_line(temp_map);
@@ -123,6 +120,6 @@ char	**ft_check_map(int fd, t_game *g, int i)
 	free(temp_map);
 	if (ft_check_map_valid(g->map, g, 0, 0) == -1 || ft_check_map_solve(g) ==
 		-1)
-		return (NULL);
+		return (ft_free_game(g), NULL);
 	return (g->map);
 }

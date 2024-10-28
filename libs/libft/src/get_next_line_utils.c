@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:49:58 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/10 13:39:48 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 18:48:03 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,17 @@ char	*ft_strchr(const char *s, int c)
 void	*ft_gnl_calloc(size_t count, size_t size)
 {
 	unsigned char	*ptr;
+	size_t			total_size;
 	size_t			i;
 
-	i = 0;
-	ptr = malloc(count * size);
+	total_size = count * size;
+	if (count == 0 || size == 0 || total_size / count != size)
+		return (NULL);
+	ptr = malloc(total_size);
 	if (ptr == NULL)
 		return (NULL);
-	while (i < count * size)
+	i = 0;
+	while (i < total_size)
 		ptr[i++] = 0;
 	return (ptr);
 }
@@ -78,6 +82,8 @@ char	*ft_gnl_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = ft_gnl_calloc(1, sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
@@ -85,7 +91,7 @@ char	*ft_gnl_strjoin(char *s1, char *s2)
 	size = ft_gnl_strlen(s1) + ft_gnl_strlen(s2);
 	str = ft_gnl_calloc((size + 1), sizeof(char));
 	if (!str)
-		return (free(str), NULL);
+		return (free(s1), NULL);
 	i = 0;
 	while (s1[i] != '\0')
 	{
@@ -93,7 +99,6 @@ char	*ft_gnl_strjoin(char *s1, char *s2)
 		i++;
 	}
 	ft_strlcat(str, s2, size + 1);
-	str[size] = '\0';
 	return (free(s1), str);
 }
 

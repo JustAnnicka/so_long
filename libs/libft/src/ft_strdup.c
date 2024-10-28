@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aehrl <aehrl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 23:30:18 by aehrl             #+#    #+#             */
-/*   Updated: 2024/05/06 17:01:18 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 18:24:31 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *s1)
 	cpy = malloc(size);
 	if (!cpy)
 	{
-		errno = 12;
+		errno = ENOMEM;
 		return (NULL);
 	}
 	ft_memcpy(cpy, s1, size);
