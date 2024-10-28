@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 20:40:23 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:09:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_check_file_type(char *argv)
 {
 	char	*p;
 
-	//maybe unnecesary check as we check if open works in the main
+	// maybe unnecesary check as we check if open works in the main
 	if (!argv)
 		return (ft_printf("Error\n File does not exist"), -1);
 	p = ft_strrchr(argv, '.');
@@ -58,14 +58,14 @@ static int	ft_check_map_rect(char *map, t_game *g)
 }
 
 static int	ft_check_map_valid(char **map, t_game *g, int y, int x)
-{	
+{
 	while (y < g->height)
 	{
 		x = 0;
 		while (x < g->width)
 		{
-			if (((y == 0 || y == g->height - 1) && map[y][x] != '1')
-				|| ((x == 0 || x == g->width) && map[y][x] != '1'))
+			if (((y == 0 || y == g->height - 1) && map[y][x] != '1') || ((x == 0
+						|| x == g->width) && map[y][x] != '1'))
 				return (ft_printf("Error\nMap error - map not enclosed"), -1);
 			if (map[y][x] == 'P')
 				g->p += ft_assign_coord(y, x, g->pos);
@@ -73,7 +73,7 @@ static int	ft_check_map_valid(char **map, t_game *g, int y, int x)
 				g->c++;
 			else if (map[y][x] == 'E')
 				g->e += ft_assign_coord(y, x, g->exit);
-			if(map[y][x] != '1' && map[y][x] != '0' && map[y][x] != 'E'
+			if (map[y][x] != '1' && map[y][x] != '0' && map[y][x] != 'E'
 				&& map[y][x] != 'P' && map[y][x] != 'C')
 				return (ft_printf("Error\nMap error-char not recognised"), -1);
 			x++;
@@ -119,8 +119,8 @@ char	**ft_check_map(int fd, t_game *g, int i)
 		i++;
 	}
 	free(temp_map);
-	if (ft_check_map_valid(g->map, g, 0, 0) == -1
-		|| ft_check_map_solve(g) == -1)
+	if (ft_check_map_valid(g->map, g, 0, 0) == -1 || ft_check_map_solve(g) ==
+		-1)
 		return (NULL);
 	return (g->map);
 }

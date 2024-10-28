@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   player_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:48:04 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 15:13:30 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:09:25 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_player_step(t_game *g, int x, int y)
 		return (ft_clear_window(g->mlx, g), ft_level_fail(g), -2);
 	return (0);
 }
-
 
 void	ft_map_interact(t_game *g)
 {

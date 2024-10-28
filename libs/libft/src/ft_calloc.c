@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aehrl <aehrl@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 20:46:28 by aehrl             #+#    #+#             */
-/*   Updated: 2024/05/10 16:47:13 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 14:50:42 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*ft_calloc(size_t count, size_t size)
 	ptr = malloc(count * size);
 	if (ptr == NULL)
 	{
-		errno = 13;
+		errno = ENOMEM;
 		return (NULL);
 	}
 	while (i < count * size)

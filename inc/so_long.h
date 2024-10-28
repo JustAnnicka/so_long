@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:17:55 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 18:16:32 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 14:43:11 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,15 @@ int		ft_check_if_enclosed(char **map, int y, int x);
 //INITIATE FUNCTIONS
 void	ft_init_map_tex(t_asset *map, mlx_t *mlx);
 void	ft_assets_ini(t_game *g, mlx_t *mlx);
-t_game	*ft_game_ini(t_game *game);
+t_game	*ft_game_ini(t_game *g);
 void	ft_resize_assets_img(t_game *g);
-void	ft_init_maps(t_game *g);
+int		ft_init_maps(t_game *g);
 t_game	*ft_initiate(t_game *g);
 
 //GRAPHIC RENDERING FUNCTIONS
-void	ft_draw_map(char **map, t_game *game, mlx_t *mlx);
-void	ft_spawn_enemy(t_game *game);
-void	ft_clear_window(mlx_t *mlx, t_game *game);
+void	ft_draw_map(char **map, t_game *g, mlx_t *mlx);
+void	ft_spawn_enemy(t_game *g);
+void	ft_clear_window(mlx_t *mlx, t_game *g);
 void	ft_ui_stepcount(t_game *g, int step_count);
 void	ft_fill_window(t_game *g, mlx_t *mlx, mlx_image_t *img);
 void	ft_level_complete(t_game *g);
@@ -116,7 +116,7 @@ void	ft_water_animation(void *param);
 //GAME MECHANIC FUNCTIONS
 void	ft_player_movement_keyhook(mlx_key_data_t keydata, void* param);
 void	ft_map_interact(t_game *g);
-void	ft_enemy_movement(t_game *game);
+void	ft_enemy_movement(t_game *g);
 
 //HELPER FUNCTIONS
 int		ft_assign_coord(int y, int x, int *g);
@@ -127,5 +127,6 @@ void	ft_resize_assets_img(t_game *g);
 //ERROR HANDLING
 void	ft_error(void);
 void	ft_map_error_handle(t_game *g);
+void	ft_free_game(t_game *g);
 
 #endif

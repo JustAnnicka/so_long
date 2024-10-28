@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-
-/*   Updated: 2024/10/11 18:00:10 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/24 14:29:27 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +35,7 @@ t_game	*ft_game_ini(t_game *g)
 {
 	g->mlx = malloc(sizeof(mlx_t));
 	if (!g->mlx)
-		return (NULL);
+		return (free(g->mlx), NULL);
 	g->width = 0;
 	g->height = 3;
 	g->p = 0;
@@ -53,10 +52,10 @@ t_game	*ft_game_ini(t_game *g)
 	g->end = 0;
 	g->assets = malloc(sizeof(t_asset));
 	if (!g->assets)
-		return (NULL);
+		return (free(g->assets), NULL);
 	g->assets->font = malloc(sizeof(t_font));
 	if (!g->assets->font)
-		return (NULL);
+		return (free(g->assets->font), NULL);
 	// INSTEAD OF RETURN NULL GIVE ERROR MESSAGE AND EXIT
 	return (g);
 }
@@ -77,8 +76,8 @@ int32_t	main(int argc, char **argv)
 		g->map = ft_check_map(fd, g, 0);
 		if (g->map == NULL)
 			return (-1);
-		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE),
-					"", true)))
+		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "",
+					true)))
 			ft_error();
 		ft_assets_ini(g, g->mlx);
 		ft_draw_map(g->map, g, g->mlx);

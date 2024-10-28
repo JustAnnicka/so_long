@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:05:17 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 19:24:26 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:10:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_level_complete(t_game *g)
 
 void	ft_level_fail(t_game *g)
 {
-	mlx_texture_t	*tex;
-	mlx_image_t		*blk;
+	mlx_texture_t *tex;
+	mlx_image_t *blk;
 
 	tex = mlx_load_png("./assets/png/tile_0057.png");
 	blk = mlx_texture_to_image(g->mlx, tex);

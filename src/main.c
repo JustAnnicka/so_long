@@ -6,8 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-
-/*   Updated: 2024/10/11 18:00:10 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 14:58:03 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +33,15 @@ void	ft_window_handling(void *param)
 
 t_game	*ft_game_ini(t_game *g)
 {
-	g->mlx = malloc(sizeof(mlx_t));
+	g->mlx = ft_calloc(1, sizeof(mlx_t));
 	if (!g->mlx)
-		return (NULL);
+		return (ft_free_game(g), NULL);
+	g->assets = ft_calloc(1, sizeof(t_asset));
+	if (!g->assets)
+		return (free(g->mlx), free(g), NULL);
+	g->assets->font = ft_calloc(1, sizeof(t_font));
+	if (!g->assets->font)
+		return (free(g->assets), free(g->mlx), ft_free_game(g), NULL);
 	g->width = 0;
 	g->height = 2;
 	g->p = 0;
@@ -51,13 +56,7 @@ t_game	*ft_game_ini(t_game *g)
 	g->enemy[0] = 0;
 	g->enemy[1] = 0;
 	g->end = 0;
-	g->assets = malloc(sizeof(t_asset));
-	if (!g->assets)
-		return (NULL);
-	g->assets->font = malloc(sizeof(t_font));
-	if (!g->assets->font)
-		return (NULL);
-	// INSTEAD OF RETUTRN NULL GIVE ERROR MESSAGE AND EXIT
+	// INSTEAD OF RETURN NULL GIVE ERROR MESSAGE AND EXIT
 	return (g);
 }
 
@@ -66,8 +65,9 @@ int32_t	main(int argc, char **argv)
 	t_game	*g;
 	int		fd;
 
-	g = NULL;
-	g = ft_initiate(g);
+	g = ft_initiate(NULL);
+	if(!g)
+		return (-1);
 	if (argc >= 2)
 	{
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
@@ -77,8 +77,8 @@ int32_t	main(int argc, char **argv)
 		g->map = ft_check_map(fd, g, 0);
 		if (g->map == NULL)
 			return (-1);
-		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE),
-					"", true)))
+		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "",
+					true)))
 			ft_error();
 		ft_assets_ini(g, g->mlx);
 		ft_draw_map(g->map, g, g->mlx);

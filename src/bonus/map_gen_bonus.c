@@ -6,14 +6,14 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 20:57:09 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:09:20 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	ft_draw_instances(char **map, t_game *g, mlx_image_t *img,
-		mlx_t *mlx, char c, int pad)
+void	ft_draw_instances(char **map, t_game *g, mlx_image_t *img, mlx_t *mlx,
+		char c, int pad)
 {
 	int	y;
 	int	x;
@@ -123,12 +123,12 @@ void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 	ft_draw_island_connector(g, mlx, 0, 0);
 	ft_draw_island_corners(g, mlx, 0, 0);
 	ft_draw_instances(map, g, g->assets->collectable, mlx, 'C', 16);
-	mlx_image_to_window(mlx, g->assets->exit, SCALE * g->exit[1] + 8,
-		SCALE * g->exit[0] + 8);
-	mlx_image_to_window(mlx, g->assets->player, SCALE * g->pos[1] + 8,
-		SCALE * g->pos[0] + 8);
+	mlx_image_to_window(mlx, g->assets->exit, SCALE * g->exit[1] + 8, SCALE
+		* g->exit[0] + 8);
+	mlx_image_to_window(mlx, g->assets->player, SCALE * g->pos[1] + 8, SCALE
+		* g->pos[0] + 8);
 	ft_spawn_enemy(g);
-	mlx_image_to_window(mlx, g->assets->enemy, SCALE * g->enemy[1] + 8,
-		SCALE * g->enemy[0] + 8);
+	mlx_image_to_window(mlx, g->assets->enemy, SCALE * g->enemy[1] + 8, SCALE
+		* g->enemy[0] + 8);
 	g->assets->font->steps->instances[0].enabled = true;
 }

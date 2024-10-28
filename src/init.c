@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 20:58:28 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/28 14:54:17 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,13 @@ void	ft_assets_ini(t_game *g, mlx_t *mlx)
 
 t_game	*ft_initiate(t_game *g)
 {
-	g = malloc(sizeof(t_game));
+	g = ft_calloc(1, sizeof(t_game));
 	if (!g)
 		return (NULL);
-	g = ft_game_ini(g);
+	if(!(ft_game_ini(g)))
+	{
+		ft_free_game(g);
+		return (NULL);
+	}
 	return (g);
 }
