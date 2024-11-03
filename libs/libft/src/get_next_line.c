@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:48:26 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 12:56:42 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/01 15:51:44 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static char	*ft_read(int fd, char *buffer)
 			return (free(temp), NULL);
 		}
 		buffer = ft_gnl_strjoin(buffer, temp);
+		if(!buffer)
+			return(free(temp), NULL);
 	}
 	free(temp);
 	return (buffer);
@@ -65,7 +67,7 @@ char	*ft_extract_line(char *buffer)
 	return (temp_string);
 }
 
-char	*ft_update_bufffer(char *buffer)
+char	*ft_update_bufffer(char *b)
 {
 	char	*temp_string;
 	int		start;
@@ -73,17 +75,17 @@ char	*ft_update_bufffer(char *buffer)
 
 	start = 0;
 	i = 0;
-	while (buffer[start] != '\0' && buffer[start] != '\n')
+	while (b[start] != '\0' && b[start] != '\n')
 		start++;
-	if (!buffer[start])
-		return (free(buffer), NULL);
-	temp_string = ft_gnl_calloc((ft_gnl_strlen(buffer) - start + 1), sizeof(char));
+	if (!b[start])
+		return (free(b), NULL);
+	temp_string = ft_gnl_calloc((ft_gnl_strlen(b) - start + 1), sizeof(char));
 	if (!temp_string)
 		return (NULL);
 	start++;
-	while (buffer[start] && buffer[start] != '\0')
-		temp_string[i++] = buffer[start++];
-	free(buffer);
+	while (b[start] && b[start] != '\0')
+		temp_string[i++] = b[start++];
+	free(b);
 	return (temp_string);
 }
 
@@ -97,7 +99,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = ft_read(fd, buffer);
 	if (!buffer)
-		return (NULL);
+		return (free(buffer), NULL);
 	line = ft_extract_line(buffer);
 	buffer = ft_update_bufffer(buffer);
 	return (line);

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 15:29:19 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/03 16:04:08 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ t_game	*ft_game_ini(t_game *g)
 		return (ft_free_game(g), NULL);
 	g->assets = ft_calloc(1, sizeof(t_asset));
 	if (!g->assets)
-		return (free(g->mlx), free(g), NULL);
+		return (ft_free_game(g), NULL);
 	g->assets->font = ft_calloc(1, sizeof(t_font));
 	if (!g->assets->font)
-		return (free(g->assets), free(g->mlx), ft_free_game(g), NULL);
+		return (ft_free_game(g), NULL);
 	g->width = 0;
 	g->height = 2;
 	g->p = 0;
@@ -66,8 +66,8 @@ int32_t	main(int argc, char **argv)
 	int		fd;
 
 	g = ft_initiate(NULL);
-	if(!g)
-		return (-1);
+	if(!g || g == NULL)
+		return (ft_free_game(g), -1);
 	if (argc >= 2)
 	{
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
@@ -89,6 +89,8 @@ int32_t	main(int argc, char **argv)
 	}
 	else
 		return (-1);
-	mlx_terminate(g->mlx);
+	ft_free_game(g);
+	//mlx_terminate(g->mlx);
+	//free(g);
 	return (EXIT_SUCCESS);
 }

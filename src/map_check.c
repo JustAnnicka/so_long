@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 18:07:48 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/03 15:51:45 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,12 @@ char	**ft_check_map(int fd, t_game *g, int i)
 	temp = NULL;
 	temp_map = NULL;
 	while ((temp = get_next_line(fd)) != NULL)
+	{
 		temp_map = ft_gnl_strjoin(temp_map, temp);
-	free(temp);
+		free(temp);
+		if (!temp_map)
+			return (ft_free_game(g), NULL);
+	}
 	if (ft_check_map_rect(temp_map, g) == -1)
 		return (free(temp_map), ft_free_game(g), NULL);
 	if (ft_init_maps(g) == -1)
@@ -113,7 +117,11 @@ char	**ft_check_map(int fd, t_game *g, int i)
 	while (temp_map != NULL)
 	{
 		g->map[i] = ft_extract_line(temp_map);
+		if(!g->map[i])
+			return(free(temp_map), ft_free_game(g), NULL);
 		g->path[i] = ft_strdup(g->map[i]);
+		if(!g->path[i])
+			return(free(temp_map), ft_free_game(g), NULL);
 		temp_map = ft_update_bufffer(temp_map);
 		i++;
 	}

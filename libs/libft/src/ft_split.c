@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 18:48:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/09 16:06:08 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/10/24 14:30:41 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	array = (char **)ft_calloc(ft_count(&s[i], c) + 1, sizeof(const char *));
 	if (!array)
-		return (NULL);
+		return (free(array), NULL);
 	while (s[start] != '\0' )
 	{
 		while (s[start] == c && s[start] != '\0')

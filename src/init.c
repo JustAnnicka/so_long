@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 14:54:17 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/03 16:04:49 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_assets_ini(t_game *g, mlx_t *mlx)
 	ft_init_imgs(g, mlx);
 	ft_resize_assets_img(g);
 	ft_init_font(g);
+	ft_delete_textures(g);
 }
 
 t_game	*ft_initiate(t_game *g)
@@ -87,7 +88,7 @@ t_game	*ft_initiate(t_game *g)
 	g = ft_calloc(1, sizeof(t_game));
 	if (!g)
 		return (NULL);
-	if(!(ft_game_ini(g)))
+	if(!ft_game_ini(g) || g == NULL)
 	{
 		ft_free_game(g);
 		return (NULL);

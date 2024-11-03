@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 17:51:57 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 18:20:39 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/03 16:08:36 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,7 @@ void ft_free_game(t_game *g)
     if (g)
     {
 		ft_free_map(g);
-        if (g->mlx)
-            mlx_terminate(g->mlx);
-        if (g->assets)
+       /*  if (g->assets)
         {
             if (g->assets->font)
             {
@@ -117,10 +115,14 @@ void ft_free_game(t_game *g)
                 if (g->assets->font->count)
                     free(g->assets->font->count);
                 free(g->assets->font);
-            }
-           ft_free_textures(g);
-		   ft_free_assets(g);
-        }
+            } 
+           //ft_free_textures(g);
+		   //ft_free_assets(g);
+        }*/
+        if (g->mlx)
+            mlx_terminate(g->mlx); 
+        free(g->assets->font);
+        free(g->assets);
         free(g);
     }
 }
