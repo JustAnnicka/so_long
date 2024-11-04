@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:17:55 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 14:43:11 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:20:25 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,21 @@ typedef	struct	s_asset
 {
 	t_font			*font;
 	mlx_texture_t	*tex_exit;
+	mlx_texture_t	*tex_exit_open;
 	mlx_texture_t	*tex_empty;
 	mlx_texture_t	*tex_enemy;
 	mlx_texture_t	*tex_player;
 	mlx_texture_t	*tex_collectable;
 	mlx_texture_t	*tex_foot;
+	mlx_texture_t	*tex_blk;
 	mlx_image_t		*exit;
+	mlx_image_t		*exit_open;
 	mlx_image_t		*empty;
 	mlx_image_t		*enemy;
 	mlx_image_t		*player;
 	mlx_image_t		*collectable;
 	mlx_image_t		*foot;
+	mlx_image_t		*blk;
 	mlx_texture_t	*tex;
 	mlx_texture_t	*tex_top;
 	mlx_texture_t	*tex_bot;
@@ -94,19 +98,21 @@ typedef struct s_game
 int		ft_check_file_type(char *argv);
 char 	**ft_check_map(int fd, t_game *g, int i);
 int		ft_check_if_enclosed(char **map, int y, int x);
+int		ft_check_map_rect(char *map, t_game *g);
 
 //INITIATE FUNCTIONS
 void	ft_init_map_tex(t_asset *map, mlx_t *mlx);
 void	ft_assets_ini(t_game *g, mlx_t *mlx);
 t_game	*ft_game_ini(t_game *g);
 void	ft_resize_assets_img(t_game *g);
-int		ft_init_maps(t_game *g);
+char	*ft_init_maps(t_game *g, int fd);
+int		ft_init_matrix(t_game *g);
 t_game	*ft_initiate(t_game *g);
 
 //GRAPHIC RENDERING FUNCTIONS
 void	ft_draw_map(char **map, t_game *g, mlx_t *mlx);
 void	ft_spawn_enemy(t_game *g);
-void	ft_clear_window(mlx_t *mlx, t_game *g);
+void	ft_clear_window(t_game *g, int state);
 void	ft_ui_stepcount(t_game *g, int step_count);
 void	ft_fill_window(t_game *g, mlx_t *mlx, mlx_image_t *img);
 void	ft_level_complete(t_game *g);

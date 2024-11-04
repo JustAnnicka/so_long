@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/03 16:04:49 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 18:31:30 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	ft_init_tex(t_game *g)
 	g->assets->tex_brc = mlx_load_png("./assets/png/tile_0039.png");
 	g->assets->tex_empty = mlx_load_png("./assets/png/tile_0001.png");
 	g->assets->tex_exit = mlx_load_png("./assets/png/tile_0135.png");
+	g->assets->tex_exit_open = mlx_load_png("./assets/png/tile_0133.png");
 	g->assets->tex_enemy = mlx_load_png("./assets/png/tile_0126.png");
 	g->assets->tex_player = mlx_load_png("./assets/png/mono/tile_0125.png");
 	g->assets->tex_collectable = mlx_load_png("./assets/png/tile_0104.png");
 	g->assets->tex_foot = mlx_load_png("./assets/png/tile_0135.png");
+	g->assets->tex_blk = mlx_load_png("./assets/png/tile_0057.png");
 }
 
 void	ft_init_imgs(t_game *g, mlx_t *mlx)
@@ -48,11 +50,13 @@ void	ft_init_imgs(t_game *g, mlx_t *mlx)
 	g->assets->img_rs = mlx_texture_to_image(mlx, g->assets->tex_rs);
 	g->assets->empty = mlx_texture_to_image(mlx, g->assets->tex_empty);
 	g->assets->exit = mlx_texture_to_image(mlx, g->assets->tex_exit);
+	g->assets->exit_open = mlx_texture_to_image(mlx, g->assets->tex_exit_open);
 	g->assets->enemy = mlx_texture_to_image(mlx, g->assets->tex_enemy);
 	g->assets->player = mlx_texture_to_image(mlx, g->assets->tex_player);
 	g->assets->collectable = mlx_texture_to_image(mlx,
 			g->assets->tex_collectable);
 	g->assets->foot = mlx_texture_to_image(mlx, g->assets->tex_foot);
+	g->assets->blk = mlx_texture_to_image(mlx, g->assets->tex_blk);
 }
 
 void	ft_init_font(t_game *g)
@@ -88,7 +92,7 @@ t_game	*ft_initiate(t_game *g)
 	g = ft_calloc(1, sizeof(t_game));
 	if (!g)
 		return (NULL);
-	if(!ft_game_ini(g) || g == NULL)
+	if (!ft_game_ini(g) || g == NULL)
 	{
 		ft_free_game(g);
 		return (NULL);

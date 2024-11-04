@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 21:09:14 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:24:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ft_check_file_type(char *argv)
 {
 	char	*p;
 
-	// maybe unnecesary check as we check if open works in the main
 	if (!argv)
 		return (ft_printf("Error\n File does not exist"), -1);
 	p = ft_strrchr(argv, '.');
@@ -29,7 +28,7 @@ int	ft_check_file_type(char *argv)
 	return (0);
 }
 
-static int	ft_check_map_rect(char *map, t_game *g)
+int	ft_check_map_rect(char *map, t_game *g)
 {
 	int	y;
 	int	i;
@@ -91,7 +90,7 @@ int	ft_check_map_solve(t_game *g)
 	if (g->c_c != g->c || g->c_e != g->e)
 	{
 		ft_printf("Error\nMap not solvable");
-		exit(0);
+		return (ft_free_game(g), -1);
 	}
 	return (0);
 }
@@ -101,26 +100,34 @@ char	**ft_check_map(int fd, t_game *g, int i)
 	char	*temp;
 	char	*temp_map;
 
-	temp = NULL;
+	temp = get_next_line(fd);
 	temp_map = NULL;
-	while ((temp = get_next_line(fd)) != NULL)
+	while (temp != NULL)
+	{
 		temp_map = ft_gnl_strjoin(temp_map, temp);
-	free(temp);
+		free(temp);
+		if (!temp_map)
+			return (ft_free_game(g), NULL);
+		temp = get_next_line(fd);
+	}
 	if (ft_check_map_rect(temp_map, g) == -1)
-		return (NULL);
-	ft_init_maps(g);
-	if (!g->map || !g->path)
-		return (NULL);
+		return (free(temp_map), ft_free_game(g), NULL);
+	if (ft_init_matrix(g) == -1)
+		return (free(temp_map), ft_free_game(g), NULL);
 	while (temp_map != NULL)
 	{
 		g->map[i] = ft_extract_line(temp_map);
+		if (!g->map[i])
+			return (free(temp_map), ft_free_game(g), NULL);
 		g->path[i] = ft_strdup(g->map[i]);
+		if (!g->path[i])
+			return (free(temp_map), ft_free_game(g), NULL);
 		temp_map = ft_update_bufffer(temp_map);
 		i++;
 	}
 	free(temp_map);
-	if (ft_check_map_valid(g->map, g, 0, 0) == -1 || ft_check_map_solve(g) ==
-		-1)
-		return (NULL);
+	if (ft_check_map_valid(g->map, g, 0, 0) == -1
+		|| ft_check_map_solve(g) == -1)
+		return (ft_free_game(g), NULL);
 	return (g->map);
 }

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 19:30:01 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/28 14:45:31 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:14:48 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ int	ft_assign_coord(int y, int x, int *g)
 	g[1] = x;
 	return (1);
 }
-int	ft_init_maps(t_game *g)
+
+int	ft_init_matrix(t_game *g)
 {
 	g->map = ft_calloc(g->height, sizeof(char *));
-	if(!g->map)
+	if (!g->map)
 	{
 		ft_free_game(g);
 		return (-1);
@@ -47,7 +48,6 @@ int	ft_init_maps(t_game *g)
 	g->path = ft_calloc(g->height, sizeof(char *));
 	if (!g->path)
 	{
-		free(g->map);
 		ft_free_game(g);
 		return (-1);
 	}

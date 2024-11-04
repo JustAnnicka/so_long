@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 21:10:05 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 15:19:15 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void	ft_draw_island(t_game *g, mlx_t *mlx, int x, int y)
 		x = 0;
 	}
 }
+
 void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 {
 	ft_draw_instances(map, g, g->assets->img, mlx, '1', 0);
@@ -127,4 +128,7 @@ void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 		* g->exit[0] + 8);
 	mlx_image_to_window(mlx, g->assets->player, SCALE * g->pos[1] + 8, SCALE
 		* g->pos[0] + 8);
+	mlx_image_to_window(g->mlx, g->assets->exit_open, SCALE * g->exit[1] + 8,
+			SCALE * g->exit[0] + 8);
+	g->assets->exit_open->instances[0].enabled = false;
 }

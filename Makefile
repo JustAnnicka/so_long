@@ -6,14 +6,14 @@
 #    By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/09 14:05:47 by aehrl             #+#    #+#              #
-#    Updated: 2024/10/28 19:59:12 by aehrl            ###   ########.fr        #
+#    Updated: 2024/11/04 20:16:30 by aehrl            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME    = so_long
 CFLAGS  = -Wall -Wextra -Werror -fsanitize=address
 SRC		= src/main.c src/map_check.c src/map_utils.c src/map_gen.c src/init.c\
-		  src/player.c src/graphic_man.c src/ui.c src/init_utils.c src/free.c
+		  src/player.c src/graphic_man.c src/init_utils.c src/free.c
 SRC_B	= src/bonus/main_bonus.c src/bonus/enemy_bonus.c src/init_utils.c\
 		  src/bonus/map_check_bonus.c src/init.c src/bonus/player_bonus.c\
 		  src/map_utils.c src/graphic_man.c src/bonus/ui_bonus.c\

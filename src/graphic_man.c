@@ -6,36 +6,46 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:54:28 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 21:11:37 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:39:18 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* // Progam has to display in a new window
--> Window management has to remain smooth (changing to another window,
-	resize, etc)
--> Pressing ESC or window X must close the window & quit the programm
-	in a clean way
-// The use of the images of MLX is mandatory */
 #include "so_long.h"
 
-void	ft_clear_window(mlx_t *mlx, t_game *g)
+void ft_delete_level(t_game *g)
 {
-	mlx_delete_image(mlx, g->assets->img);
-	mlx_delete_image(mlx, g->assets->img_top);
-	mlx_delete_image(mlx, g->assets->img_bot);
-	mlx_delete_image(mlx, g->assets->img_tlc);
-	mlx_delete_image(mlx, g->assets->img_trc);
-	mlx_delete_image(mlx, g->assets->img_ctlc);
-	mlx_delete_image(mlx, g->assets->img_cblc);
-	mlx_delete_image(mlx, g->assets->img_blc);
-	mlx_delete_image(mlx, g->assets->img_brc);
-	mlx_delete_image(mlx, g->assets->img_ls);
-	mlx_delete_image(mlx, g->assets->img_rs);
-	mlx_delete_image(mlx, g->assets->empty);
-	mlx_delete_image(mlx, g->assets->exit);
-	mlx_delete_image(mlx, g->assets->enemy);
-	mlx_delete_image(mlx, g->assets->collectable);
-	g->end = 1;
+	mlx_delete_image(g->mlx, g->assets->img_top);
+	mlx_delete_image(g->mlx, g->assets->img_bot);
+	mlx_delete_image(g->mlx, g->assets->img_tlc);
+	mlx_delete_image(g->mlx, g->assets->img_trc);
+	mlx_delete_image(g->mlx, g->assets->img_ctlc);
+	mlx_delete_image(g->mlx, g->assets->img_cblc);
+	mlx_delete_image(g->mlx, g->assets->img_blc);
+	mlx_delete_image(g->mlx, g->assets->img_brc);
+	mlx_delete_image(g->mlx, g->assets->img_ls);
+	mlx_delete_image(g->mlx, g->assets->img_rs);
+	mlx_delete_image(g->mlx, g->assets->empty);
+	mlx_delete_image(g->mlx, g->assets->exit);
+	mlx_delete_image(g->mlx, g->assets->collectable);
+}
+
+void	ft_clear_window(t_game *g, int state)
+{
+	g->end = state;
+	ft_delete_level(g);
+	ft_fill_window(g, g->mlx, g->assets->blk); 
+ 	if (state == 1)
+	{
+		mlx_get_font();
+		g->assets->font->win->instances[0].enabled = true;
+		mlx_set_instance_depth(&g->assets->font->win->instances[0], 260);
+	}
+	else if (state == -2)
+	{
+		mlx_get_font();
+		g->assets->font->loose->instances[0].enabled = true;
+		mlx_set_instance_depth(&g->assets->font->loose->instances[0], 260);
+	}
 	g->assets->player->instances[0].enabled = false;
 }
 
@@ -58,6 +68,7 @@ static void	ft_shift_row_up(t_game *g, int row_size, int height)
 	ft_memcpy(&pixels[(height - 1) * row_size], buffer, row_size);
 	free(buffer);
 }
+
 void	ft_water_animation(void *param)
 {
 	t_game		*g;
@@ -66,7 +77,7 @@ void	ft_water_animation(void *param)
 
 	g = param;
 	row_size = g->assets->img->width * 4;
-	if (g->end == 1)
+	if (g->end != 0)
 		return ;
 	frame++;
 	if (frame == 5)

@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 21:09:20 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 18:44:06 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,8 @@ void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 	ft_spawn_enemy(g);
 	mlx_image_to_window(mlx, g->assets->enemy, SCALE * g->enemy[1] + 8, SCALE
 		* g->enemy[0] + 8);
+	mlx_image_to_window(g->mlx, g->assets->exit_open, SCALE * g->exit[1] + 8,
+	SCALE * g->exit[0] + 8);
 	g->assets->font->steps->instances[0].enabled = true;
+	g->assets->exit_open->instances[0].enabled = false;
 }

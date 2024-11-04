@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/03 16:04:08 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 18:53:26 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ void	ft_window_handling(void *param)
 
 t_game	*ft_game_ini(t_game *g)
 {
-	g->mlx = ft_calloc(1, sizeof(mlx_t));
-	if (!g->mlx)
-		return (ft_free_game(g), NULL);
+	g->mlx = NULL;
 	g->assets = ft_calloc(1, sizeof(t_asset));
 	if (!g->assets)
 		return (ft_free_game(g), NULL);
@@ -56,7 +54,6 @@ t_game	*ft_game_ini(t_game *g)
 	g->enemy[0] = 0;
 	g->enemy[1] = 0;
 	g->end = 0;
-	// INSTEAD OF RETURN NULL GIVE ERROR MESSAGE AND EXIT
 	return (g);
 }
 
@@ -66,19 +63,20 @@ int32_t	main(int argc, char **argv)
 	int		fd;
 
 	g = ft_initiate(NULL);
-	if(!g || g == NULL)
-		return (ft_free_game(g), -1);
+	if (!g || g == NULL)
+		return (ft_printf("Error\nInitialistion"), ft_free_game(g), -1);
 	if (argc >= 2)
 	{
-		if ((fd = open(argv[1], O_RDONLY)) == -1)
-			return (printf("Error\nCould not open file"), -1);
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			return (ft_printf("Error\nCould not open file"), -1);
 		if (ft_check_file_type(argv[1]) != 0)
 			return (-1);
 		g->map = ft_check_map(fd, g, 0);
 		if (g->map == NULL)
 			return (-1);
-		if (!(g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "",
-					true)))
+		g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "", true);
+		if (!g->mlx)
 			ft_error();
 		ft_assets_ini(g, g->mlx);
 		ft_draw_map(g->map, g, g->mlx);
@@ -88,9 +86,7 @@ int32_t	main(int argc, char **argv)
 		mlx_loop(g->mlx);
 	}
 	else
-		return (-1);
+		return (ft_printf("Error\nMissing map argument"), ft_free_game(g), -1);
 	ft_free_game(g);
-	//mlx_terminate(g->mlx);
-	//free(g);
 	return (EXIT_SUCCESS);
 }

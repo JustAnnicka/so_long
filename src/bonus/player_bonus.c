@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:48:04 by aehrl             #+#    #+#             */
-/*   Updated: 2024/10/23 21:09:25 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:38:56 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@ int	ft_player_step(t_game *g, int x, int y)
 		g->map[y][x] = '0';
 	}
 	else if (g->map[y][x] == 'E' && g->c_c == 0)
-		return (ft_clear_window(g->mlx, g), ft_level_complete(g), 0);
+		return (ft_clear_window(g, 1), ft_level_complete(g), 0);
 	g->pos[0] = y;
 	g->pos[1] = x;
 	step_count++;
 	ft_ui_stepcount(g, step_count);
 	ft_enemy_movement(g);
 	if (g->pos[0] == g->enemy[0] && g->pos[1] == g->enemy[1])
-		return (ft_clear_window(g->mlx, g), ft_level_fail(g), -2);
+		return (ft_clear_window(g, -2), ft_level_fail(g), -2);
+	if ((g->map[y][x] == 'E' && g->c_c == 0) ||
+		(g->pos[0] == g->enemy[0] && g->pos[1] == g->enemy[1]))
+		g->assets->enemy->instances[0].enabled = false;
 	return (0);
 }
 
@@ -53,13 +56,8 @@ void	ft_map_interact(t_game *g)
 	}
 	if (g->c_c == 0)
 	{
-		mlx_delete_image(g->mlx, g->assets->exit);
-		mlx_delete_texture(g->assets->tex_exit);
-		g->assets->tex_exit = mlx_load_png("./assets/png/tile_0133.png");
-		g->assets->exit = mlx_texture_to_image(g->mlx, g->assets->tex_exit);
-		mlx_image_to_window(g->mlx, g->assets->exit, SCALE * g->exit[1] + 8,
-			SCALE * g->exit[0] + 8);
-		mlx_resize_image(g->assets->exit, 48, 48);
+		g->assets->exit->instances[0].enabled = false;
+		g->assets->exit_open->instances[0].enabled = true;
 	}
 }
 
