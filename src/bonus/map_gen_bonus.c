@@ -6,14 +6,13 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:16:31 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/05 17:43:27 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 17:51:26 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	ft_draw_instances(char **map, t_game *g, mlx_image_t *img,
-		char c)
+void	ft_draw_instances(char **map, t_game *g, mlx_image_t *img, char c)
 {
 	int	y;
 	int	x;
@@ -138,5 +137,4 @@ void	ft_draw_map(char **map, t_game *g, mlx_t *mlx)
 	mlx_image_to_window(mlx, g->assets->foot, 0, (g->height * 64) - 56);
 	g->assets->font->steps->instances[0].enabled = true;
 	g->assets->exit_open->instances[0].enabled = false;
-	
 }
