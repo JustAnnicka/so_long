@@ -6,12 +6,12 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 15:17:55 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 20:20:25 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 16:57:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
-#define SO_LONG_H
+# define SO_LONG_H
 
 //Include Libraries
 # include "libft.h"
@@ -21,18 +21,17 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-#define SCALE 64
+# define SCALE 64
 
 typedef struct s_font
 {
-	//void	*font;
 	mlx_image_t	*win;
 	mlx_image_t	*loose;
 	mlx_image_t	*steps;
 	mlx_image_t	*count;
 }	t_font;
 
-typedef	struct	s_asset
+typedef struct s_asset
 {
 	t_font			*font;
 	mlx_texture_t	*tex_exit;
@@ -96,13 +95,13 @@ typedef struct s_game
 
 //MAP CHECK FUNCTION
 int		ft_check_file_type(char *argv);
-char 	**ft_check_map(int fd, t_game *g, int i);
+char	**ft_check_map(int fd, t_game *g);
 int		ft_check_if_enclosed(char **map, int y, int x);
 int		ft_check_map_rect(char *map, t_game *g);
 
 //INITIATE FUNCTIONS
 void	ft_init_map_tex(t_asset *map, mlx_t *mlx);
-void	ft_assets_ini(t_game *g, mlx_t *mlx);
+void	ft_assets_ini(t_game *g, int fd);
 t_game	*ft_game_ini(t_game *g);
 void	ft_resize_assets_img(t_game *g);
 char	*ft_init_maps(t_game *g, int fd);
@@ -118,9 +117,10 @@ void	ft_fill_window(t_game *g, mlx_t *mlx, mlx_image_t *img);
 void	ft_level_complete(t_game *g);
 void	ft_level_fail(t_game *g);
 void	ft_water_animation(void *param);
+void	ft_boat_animation(void *param);
 
 //GAME MECHANIC FUNCTIONS
-void	ft_player_movement_keyhook(mlx_key_data_t keydata, void* param);
+void	ft_player_movement_keyhook(mlx_key_data_t keydata, void *param);
 void	ft_map_interact(t_game *g);
 void	ft_enemy_movement(t_game *g);
 

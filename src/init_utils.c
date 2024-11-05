@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 17:29:29 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 20:18:12 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 17:11:14 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_resize_assets_img(t_game *g)
 	mlx_resize_image(g->assets->enemy, 48, 48);
 	mlx_resize_image(g->assets->player, 48, 48);
 	mlx_resize_image(g->assets->collectable, 32, 32);
-	mlx_resize_image(g->assets->foot, SCALE, SCALE);
+	mlx_resize_image(g->assets->foot, 48, 48);
 	mlx_resize_image(g->assets->blk, SCALE, SCALE);
 }
 

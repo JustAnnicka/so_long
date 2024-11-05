@@ -6,13 +6,13 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:54:28 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 20:39:18 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 17:42:23 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void ft_delete_level(t_game *g)
+void	ft_delete_level(t_game *g)
 {
 	mlx_delete_image(g->mlx, g->assets->img_top);
 	mlx_delete_image(g->mlx, g->assets->img_bot);
@@ -33,8 +33,8 @@ void	ft_clear_window(t_game *g, int state)
 {
 	g->end = state;
 	ft_delete_level(g);
-	ft_fill_window(g, g->mlx, g->assets->blk); 
- 	if (state == 1)
+	ft_fill_window(g, g->mlx, g->assets->blk);
+	if (state == 1)
 	{
 		mlx_get_font();
 		g->assets->font->win->instances[0].enabled = true;
@@ -83,6 +83,31 @@ void	ft_water_animation(void *param)
 	if (frame == 5)
 	{
 		ft_shift_row_up(g, row_size, g->assets->img->height);
+		frame = 0;
+	}
+}
+
+void	ft_boat_animation(void *param)
+{
+	t_game		*g;
+	static int	frame;
+	int			x;
+
+	g = param;
+	x = g->width * SCALE;
+	if (g->end != 0)
+		return ;
+	frame++;
+	if (frame == 8)
+	{
+		g->assets->foot->instances[0].enabled = true;
+		if ((g->assets->foot->instances[0].x + SCALE) <= x)
+			g->assets->foot->instances[0].x += 8;
+		else
+		{
+			g->assets->foot->instances[0].x = 0;
+			g->assets->foot->instances[0].enabled = false;
+		}
 		frame = 0;
 	}
 }

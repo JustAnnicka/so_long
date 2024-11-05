@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 13:47:50 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 20:32:00 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 20:47:37 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,12 @@ int	ft_check_map_solve(t_game *g)
 	return (0);
 }
 
-char	**ft_check_map(int fd, t_game *g, int i)
+char	**ft_check_map(int fd, t_game *g)
 {
 	char	*temp_map;
+	int		i;
 
+	i = 0;
 	temp_map = ft_init_maps(g, fd);
 	if (temp_map == NULL)
 		return (ft_free_game(g), NULL);

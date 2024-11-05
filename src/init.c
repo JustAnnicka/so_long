@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:52:42 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 18:31:30 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 17:33:50 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_init_tex(t_game *g)
 	g->assets->tex_exit = mlx_load_png("./assets/png/tile_0135.png");
 	g->assets->tex_exit_open = mlx_load_png("./assets/png/tile_0133.png");
 	g->assets->tex_enemy = mlx_load_png("./assets/png/tile_0126.png");
-	g->assets->tex_player = mlx_load_png("./assets/png/mono/tile_0125.png");
+	g->assets->tex_player = mlx_load_png("./assets/png/tile_0125.png");
 	g->assets->tex_collectable = mlx_load_png("./assets/png/tile_0104.png");
-	g->assets->tex_foot = mlx_load_png("./assets/png/tile_0135.png");
+	g->assets->tex_foot = mlx_load_png("./assets/png/LittleLamp.png");
 	g->assets->tex_blk = mlx_load_png("./assets/png/tile_0057.png");
 }
 
@@ -77,11 +77,18 @@ void	ft_init_font(t_game *g)
 	mlx_resize_image(g->assets->font->loose, SCALE * 1.5, SCALE / 2);
 }
 
-void	ft_assets_ini(t_game *g, mlx_t *mlx)
+void	ft_assets_ini(t_game *g, int fd)
 {
-	mlx_set_window_limit(mlx, g->width * SCALE, g->height * SCALE, 8000, 8000);
+	g->map = ft_check_map(fd, g);
+	if (g->map == NULL)
+		ft_error();
+	g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "", true);
+	if (!g->mlx)
+		ft_error();
+	mlx_set_window_limit(g->mlx, g->width * SCALE, g->height * SCALE,
+		8000, 8000);
 	ft_init_tex(g);
-	ft_init_imgs(g, mlx);
+	ft_init_imgs(g, g->mlx);
 	ft_resize_assets_img(g);
 	ft_init_font(g);
 	ft_delete_textures(g);

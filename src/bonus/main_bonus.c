@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 18:05:32 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/04 18:54:13 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/05 17:43:50 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,12 @@ int32_t	main(int argc, char **argv)
 			return (ft_printf("Error\nCould not open file"), -1);
 		if (ft_check_file_type(argv[1]) != 0)
 			return (-1);
-		g->map = ft_check_map(fd, g, 0);
-		if (g->map == NULL)
-			return (-1);
-		g->mlx = mlx_init((g->width * SCALE), (g->height * SCALE), "", true);
-		if (!g->mlx)
-			ft_error();
-		ft_assets_ini(g, g->mlx);
+		ft_assets_ini(g, fd);
 		ft_draw_map(g->map, g, g->mlx);
 		mlx_loop_hook(g->mlx, ft_window_handling, g->mlx);
 		mlx_key_hook(g->mlx, ft_player_movement_keyhook, g);
 		mlx_loop_hook(g->mlx, ft_water_animation, g);
+		mlx_loop_hook(g->mlx, ft_boat_animation, g);
 		mlx_loop(g->mlx);
 	}
 	else

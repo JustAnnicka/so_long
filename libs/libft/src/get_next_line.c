@@ -6,7 +6,7 @@
 /*   By: aehrl <aehrl@student.42malaga.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 15:48:26 by aehrl             #+#    #+#             */
-/*   Updated: 2024/11/01 15:51:44 by aehrl            ###   ########.fr       */
+/*   Updated: 2024/11/04 21:15:22 by aehrl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static char	*ft_read(int fd, char *buffer)
 			return (free(temp), NULL);
 		}
 		buffer = ft_gnl_strjoin(buffer, temp);
-		if(!buffer)
-			return(free(temp), NULL);
+		if (!buffer)
+			return (free(temp), NULL);
 	}
 	free(temp);
 	return (buffer);
